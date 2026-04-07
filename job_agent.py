@@ -6,7 +6,7 @@ from google import genai
 # --- CONFIGURATION ---
 # Load API key securely from environment variable
 API_KEY = os.environ.get("GEMINI_API_KEY")
-DB_PASS = "Prajwal@123"
+DB_PASS = "your_db_password_here"
 
 if not API_KEY:
     print("❌ ERROR: GEMINI_API_KEY environment variable not set.")

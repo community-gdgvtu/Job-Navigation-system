@@ -1,4 +1,4 @@
-# 🚀 Job Navigation System
+# 🚀 Real-Time Belagavi Job Hunter
 
 An AI-powered, real-time spatial mapping application that hunts for jobs in Belagavi using Google's Gemini API and visualizes them on an interactive Google Maps-style interface.
 
@@ -49,13 +49,14 @@ The application requires PostgreSQL and the PostGIS extension to store and map c
 **1. Install Database Dependencies:**
 ```bash
 sudo apt-get update
-sudo apt-get install postgresql postgresql-contrib postgis git python3-venv python3-pip tmux -y
+sudo apt-get install postgresql postgresql-contrib postgis git python3-venv python3-pip tmux nano -y
 ```
 
 **2. Configure the Database User & Password:**
 ```bash
-sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'AdvikaGurav_06';"
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'your_password_here';"
 ```
+*(Note: If you change the password here, remember it for Step 3).*
 
 **3. Enable PostGIS & Create the Table:**
 ```bash
@@ -99,6 +100,18 @@ To keep your key safe and ensure it loads on boot, append it to your server's pr
 echo 'export GEMINI_API_KEY="YOUR_ACTUAL_API_KEY_HERE"' >> ~/.bashrc
 source ~/.bashrc
 ```
+
+**5. Update Database Credentials in Code:**
+You must ensure the database password in your Python files matches the one you set in Step 2. Use the `nano` text editor to modify the files:
+```bash
+nano map_app.py
+```
+*Find the line `DB_PASS = "your_password_here"` and change it if necessary. Press `Ctrl+O` then `Enter` to save, and `Ctrl+X` to exit.*
+
+```bash
+nano job_agent.py
+```
+*Repeat the same process to update `DB_PASS` in this file. Press `Ctrl+O` then `Enter` to save, and `Ctrl+X` to exit.*
 
 ---
 
