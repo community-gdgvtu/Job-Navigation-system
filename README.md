@@ -79,8 +79,8 @@ CREATE TABLE IF NOT EXISTS jobs_map (
 **1. Clone the Repository:**
 ```bash
 # Replace with your actual GitHub repository URL
-git clone [https://github.com/your-username/map-navigation.git](https://github.com/your-username/map-navigation.git)
-cd map-navigation
+git clone https://github.com/community-gdgvtu/Job-Navigation-system.git
+cd Job-Navigation-system
 ```
 
 **2. Set Up the Python Virtual Environment:**
