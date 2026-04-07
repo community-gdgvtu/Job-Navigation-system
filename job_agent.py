@@ -1,15 +1,21 @@
+import os
 import json
 import psycopg2
 from google import genai
 
 # --- CONFIGURATION ---
-# Replace with your actual credentials if they differ
-API_KEY = "AIzaSyBO1jQ_IcKyBok58GaJLEDSlNu8J3umD9g"
-DB_PASS = "AdvikaGurav_06"
+# Load API key securely from environment variable
+API_KEY = os.environ.get("GEMINI_API_KEY")
+DB_PASS = "Prajwal@123"
+
+if not API_KEY:
+    print("❌ ERROR: GEMINI_API_KEY environment variable not set.")
+    exit(1)
+
 client = genai.Client(api_key=API_KEY)
 
 def get_connection():
-    """Establishes connection to local PostgreSQL/AlloyDB."""
+    """Establishes connection to local PostgreSQL."""
     return psycopg2.connect(
         host="127.0.0.1", 
         port="5432", 
@@ -36,7 +42,7 @@ def save_to_alloydb(title, company, lat, lng):
             conn.close()
 
 def gemini_job_agent(raw_text):
-    """Uses Gemini 2.0 to turn messy text into structured GPS data."""
+    """Uses Gemini 2.5 to turn messy text into structured GPS data."""
     print(f"🤖 Agent is analyzing: {raw_text[:50]}...")
     
     prompt = f"""
@@ -53,10 +59,7 @@ def gemini_job_agent(raw_text):
     """
     
     try:
-        # Using the updated 2.0 Flash model
-        response = client.models.generate_content(model="gemini-2.0-flash-lite", contents=prompt)
-        
-        # Clean the response to ensure only JSON remains
+        response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
         clean_json = response.text.replace('```json', '').replace('```', '').strip()
         data = json.loads(clean_json)
         
@@ -69,13 +72,9 @@ def gemini_job_agent(raw_text):
         return None
 
 if __name__ == "__main__":
-    # 1. Simulate a messy job post you might find on a local board
     sample_post = "Urgent: Hiring a Web Developer at Angadi College, Savadatti Road, Belagavi. Apply now!"
-    
-    # 2. Let the Agent process it
     extracted_data = gemini_job_agent(sample_post)
     
-    # 3. If extraction worked, save it to your map database
     if extracted_data:
         save_to_alloydb(
             extracted_data['title'], 
