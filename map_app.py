@@ -10,12 +10,7 @@ import psycopg2
 API_KEY = os.environ.get("GEMINI_API_KEY")
 DB_PASS = "your_db_password_here"
 
-if not API_KEY:gcloud compute instances create job-hunter-prod \
-    --image-family=ubuntu-2204-lts \
-    --image-project=ubuntu-os-cloud \
-    --machine-type=e2-medium \
-    --tags=http-server \
-    --zone=asia-south1-a 
+if not API_KEY:
     st.error("❌ GEMINI_API_KEY environment variable not set. Please set it in your terminal.")
     st.stop()
 
