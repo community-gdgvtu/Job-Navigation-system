@@ -6,7 +6,24 @@ An AI-powered, real-time spatial mapping application that hunts for jobs in Bela
 
 ## ☁️ GCP Production Deployment Guide
 
+⚠️ **IMPORTANT (READ FIRST): Use Existing Project**
+
+Before starting, **DO NOT create a new GCP project**.
+
+👉 Use the **same project** that was used for your **Day 0 / Day 1 setup**.  
+This avoids billing issues, API permission problems, and configuration errors.
+
+### ✅ Set Your Project in Cloud Shell
+
+Run this command and replace `YOUR_PROJECT_ID` with your actual project ID:
+
+```bash
+gcloud config set project YOUR_PROJECT_ID
+```
+
 This project is designed to be deployed on a permanent **Google Compute Engine (VM)** running Ubuntu. This ensures your map and database stay online 24/7, unlike the temporary Cloud Shell environment.
+
+---
 
 ### Step 1: Provision the Production Server
 > 🖥️ **ENVIRONMENT:** Google Cloud Shell Terminal
@@ -54,7 +71,7 @@ sudo apt-get install postgresql postgresql-contrib postgis git python3-venv pyth
 
 **2. Configure the Database User & Password:**
 ```bash
-sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'your_password_here';"
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'AdvikaGurav_06';"
 ```
 *(Note: If you change the password here, remember it for Step 3).*
 
@@ -79,8 +96,8 @@ CREATE TABLE IF NOT EXISTS jobs_map (
 **1. Clone the Repository:**
 ```bash
 # Replace with your actual GitHub repository URL
-git clone https://github.com/community-gdgvtu/Job-Navigation-system.git
-cd Job-Navigation-system
+git clone [https://github.com/your-username/map-navigation.git](https://github.com/your-username/map-navigation.git)
+cd map-navigation
 ```
 
 **2. Set Up the Python Virtual Environment:**
@@ -106,7 +123,7 @@ You must ensure the database password in your Python files matches the one you s
 ```bash
 nano map_app.py
 ```
-*Find the line `DB_PASS = "your_password_here"` and change it if necessary. Press `Ctrl+O` then `Enter` to save, and `Ctrl+X` to exit.*
+*Find the line `DB_PASS = "AdvikaGurav_06"` and change it if necessary. Press `Ctrl+O` then `Enter` to save, and `Ctrl+X` to exit.*
 
 ```bash
 nano job_agent.py
@@ -131,23 +148,6 @@ source venv/bin/activate
 streamlit run map_app.py --server.port 8080 --server.address 0.0.0.0
 ```
 
-**3. Detach and Leave it Running:**
-* Press **`Ctrl + B`** on your keyboard, let go, then press **`D`**.
-* This safely detaches you from the session, leaving the app running securely in the background.
-
-> **Tip:** To check on the app later or stop it, open Cloud Shell, SSH back into the server (`gcloud compute ssh job-hunter-prod --zone=asia-south1-a`), and type `tmux attach -t jobhunter`.
-
----
-
-### 🌍 Accessing the Live Application
-> 🖥️ **ENVIRONMENT:** Production VM SSH Terminal
-
-Your project is now fully deployed! To access the live site, you need your VM's Public IP address.
-
-**Run this command to find your public IP:**
-```bash
-curl -s ifconfig.me
-```
-
-Open any web browser and navigate to:
-**`http://<YOUR_PUBLIC_IP>:8080`**
+**3. Detach and stop it Running:**
+* Press **`Ctrl + C`** on your keyboard, let go, then press **`Ctrl + D`**.
+* This safely detaches you from the session, stopping the app.
